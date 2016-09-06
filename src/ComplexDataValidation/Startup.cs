@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ComplexDataValidation.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ComplexDataValidation
 {
@@ -35,6 +37,9 @@ namespace ComplexDataValidation
         {
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
+
+            var connection = @"Server=(localdb)\mssqllocaldb;Database=ComplexDataValidation;Trusted_Connection=True;";
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
 
             services.AddMvc();
         }
