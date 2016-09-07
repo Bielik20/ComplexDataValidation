@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 
 namespace ComplexDataValidation.Models
 {
-    public class Entry
+    public class Chapter
     {
         public int ID { get; set; }
-        public int ChildID { get; set; }
+        public int BookID { get; set; }
+        public Book Book { get; set; }
+        public bool Submited { get; set; }
 
         public string Description { get; set; }
     }

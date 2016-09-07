@@ -5,18 +5,15 @@ using System.Threading.Tasks;
 
 namespace ComplexDataValidation.Models
 {
-    public class Parent
+    public class Person
     {
         public int ID { get; set; }
 
-        public string Name { get; set; }
-        public int Age { get; set; }
-
+        //Required
+        public Credentials Credentials { get; set; }
         //Optional
         public Pet Pet { get; set; }
         //Required
-        public House House { get; set; }
-        //Required
-        public List<Child> Children { get; set; }
+        public List<Book> Books { get; set; }
     }
 }

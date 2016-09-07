@@ -21,7 +21,10 @@ namespace ComplexDataValidation.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
 
-        public DbSet<Parent> Parents { get; set; }
-        public DbSet<Child> Children { get; set; }
+        public DbSet<Person> People { get; set; }
+        public DbSet<Pet> Pets { get; set; }
+        public DbSet<Credentials> Credentials { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Chapter> Chapters { get; set; }
     }
 }
