@@ -39,6 +39,14 @@ namespace ComplexDataValidation.Controllers
                 return NotFound();
             }
 
+            person.Credentials = await _context.Credentials.Where(x => x.PersonID == person.ID).FirstOrDefaultAsync();
+            person.Pet = await _context.Pets.Where(x => x.PersonID == person.ID).FirstOrDefaultAsync();
+            person.Books = await _context.Books.Where(x => x.PersonID == person.ID).ToListAsync();
+            foreach (var book in person.Books)
+            {
+                book.Chapters = await _context.Chapters.Where(x => x.BookID == book.ID).ToListAsync();
+            }
+
             return View(person);
         }
 
