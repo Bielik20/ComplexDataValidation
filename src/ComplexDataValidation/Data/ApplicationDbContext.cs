@@ -25,7 +25,7 @@ namespace ComplexDataValidation.Data
         public DbSet<Pet> Pets { get; set; }
         public DbSet<Credentials> Credentials { get; set; }
         public DbSet<Book> Books { get; set; }
-        public DbSet<Details> Details { get; set; }
+        public DbSet<Information> Information { get; set; }
         public DbSet<Chapter> Chapters { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace ComplexDataValidation.Models
         public Person Person { get; set; }
         public bool Submited { get; set; }
 
-        public Details Details { get; set; }
+        public Information Information { get; set; }
         public List<Chapter> Chapters { get; set; }
     }
 }

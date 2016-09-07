@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ComplexDataValidation.Models
 {
-    public class Details
+    public class Information
     {
         public int ID { get; set; }
         public int BookID { get; set; }
