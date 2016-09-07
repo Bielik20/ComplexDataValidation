@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 
 namespace ComplexDataValidation.Models
 {
-    public class Book
+    public class Details
     {
         public int ID { get; set; }
-        public int PersonID { get; set; }
-        public Person Person { get; set; }
+        public int BookID { get; set; }
+        public Book Book { get; set; }
         public bool Submited { get; set; }
 
-        public Details Details { get; set; }
-        public List<Chapter> Chapters { get; set; }
+        public string Titile { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 }

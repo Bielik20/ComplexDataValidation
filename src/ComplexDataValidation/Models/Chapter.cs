@@ -13,5 +13,6 @@ namespace ComplexDataValidation.Models
         public bool Submited { get; set; }
 
         public string Description { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 }
