@@ -1,0 +1,33 @@
+﻿.bottom-margin {
+    margin-bottom: 8px;
+}
+
+.section-margin {
+    margin-bottom: 15px;
+}
+
+
+.display-label {
+    font-weight:600 !important;
+    color:#303030 !important;
+    text-align: right !important;
+}
+
+.panel-body {
+    padding: 25px;
+    background: #f6f6f6;
+}
+
+@media (max-width: 767px) {
+    .panel-body {
+        padding: 20px 10px;
+    }
+}
+
+.panel {
+    border: 0px;
+}
+
+.table-responsive {
+    border: 0px;
+}
