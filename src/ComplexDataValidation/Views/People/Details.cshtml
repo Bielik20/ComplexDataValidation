@@ -29,9 +29,18 @@
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
                         Credentials
                     </a>
-                    @*<a  asp-controller="Credentials" asp-action="Edit" asp-route-id="@Model.Credentials.ID" class="accordion-link">
-                        Edit
-                    </a>*@
+                    @if (Model.Credentials == null)
+                    {
+                        <a asp-controller="Credentials" asp-action="Create" asp-route-id="@Model.ID" class="accordion-link">
+                            Create
+                        </a>
+                    }
+                    else if (Model.Credentials.Submited == false)
+                    {
+                        <a asp-controller="Credentials" asp-action="Edit" asp-route-id="@Model.ID" class="accordion-link">
+                            Edit
+                        </a>
+                    }
                 </h3>
             </div>
             <div id="collapse1" class="panel-collapse collapse">
@@ -61,9 +70,18 @@
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
                         Pet
                     </a>
-                    @*<a asp-controller="Pets" asp-action="Edit" asp-route-id="@Model.Pet.ID" class="accordion-link">
-                        Edit
-                    </a>*@
+                    @if (Model.Pet == null)
+                    {
+                        <a asp-controller="Pets" asp-action="Create" asp-route-id="@Model.ID" class="accordion-link">
+                            Create
+                        </a>
+                    }
+                    else if (Model.Pet.Submited == false)
+                    {
+                        <a asp-controller="Pets" asp-action="Edit" asp-route-id="@Model.ID" class="accordion-link">
+                            Edit
+                        </a>
+                    }
                 </h3>
             </div>
             <div id="collapse2" class="panel-collapse collapse">
@@ -91,8 +109,20 @@
             <div class="panel-heading" style="background:#ebebb0;">
                 <h3 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                        Latest Book Details
+                        Latest Book Information
                     </a>
+                    @*@if (lastBook == null)
+                    {
+                        <a asp-controller="Information" asp-action="Create" asp-route-id="@lastBook.ID" class="accordion-link">
+                            Create
+                        </a>
+                    }
+                    else if (lastBook.Submited == false)
+                    {
+                        <a asp-controller="Information" asp-action="Edit" asp-route-id="@lastBook.ID" class="accordion-link">
+                            Edit
+                        </a>
+                    }*@
                 </h3>
             </div>
             <div id="collapse3" class="panel-collapse collapse">
