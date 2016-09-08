@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,7 +11,6 @@ namespace ComplexDataValidation.Models
     {
         public int ID { get; set; }
         public int BookID { get; set; }
-        public Book Book { get; set; }
         public bool Submited { get; set; }
 
         public string Description { get; set; }

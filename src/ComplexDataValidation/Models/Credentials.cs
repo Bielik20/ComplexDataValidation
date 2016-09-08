@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,9 +9,9 @@ namespace ComplexDataValidation.Models
 {
     public class Credentials
     {
-        public int ID { get; set; }
-        public int PersonID { get; set; }
-        public Person Person { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int ID { get; set; } //PersonID
         public bool Submited { get; set; }
 
         public string Name { get; set; }

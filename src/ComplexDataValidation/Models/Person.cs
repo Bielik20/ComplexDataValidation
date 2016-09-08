@@ -16,4 +16,19 @@ namespace ComplexDataValidation.Models
         //Required
         public List<Book> Books { get; set; }
     }
+
+    public class Parent
+    {
+        public int ID { get; set; }
+
+        public List<Child> Children { get; set; }
+    }
+
+    public class Child
+    {
+        public int ID { get; set; }
+
+        public int ParentID { get; set; }
+        public Parent Parent { get; set; }
+    }
 }

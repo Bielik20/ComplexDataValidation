@@ -39,12 +39,12 @@ namespace ComplexDataValidation.Controllers
                 return NotFound();
             }
 
-            person.Credentials = await _context.Credentials.Where(x => x.PersonID == person.ID).FirstOrDefaultAsync();
+            person.Credentials = await _context.Credentials.Where(x => x.ID == person.ID).FirstOrDefaultAsync();
             person.Pet = await _context.Pets.Where(x => x.ID == person.ID).FirstOrDefaultAsync();
             person.Books = await _context.Books.Where(x => x.PersonID == person.ID).ToListAsync();
             foreach (var book in person.Books)
             {
-                book.Information = await _context.Information.Where(x => x.BookID == book.ID).FirstOrDefaultAsync();
+                book.Information = await _context.Information.Where(x => x.ID == book.ID).FirstOrDefaultAsync();
                 book.Chapters = await _context.Chapters.Where(x => x.BookID == book.ID).ToListAsync();
             }
 
