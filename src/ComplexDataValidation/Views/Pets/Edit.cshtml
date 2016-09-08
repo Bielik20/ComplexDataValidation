@@ -1,3 +1,4 @@
+@using ComplexDataValidation.Models.Enums;
 @model ComplexDataValidation.Models.Pet
 
 @{
@@ -11,11 +12,11 @@
         <h4>Pet</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="ID" />
+    <input type="hidden" asp-for="PersonID" />
         <div class="form-group">
             <label asp-for="Kind" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="Kind" class="form-control"></select>
+                <select asp-for="Kind" asp-items="Html.GetEnumSelectList<KindEnum>()" class="form-control"></select>
                 <span asp-validation-for="Kind" class="text-danger" />
             </div>
         </div>
@@ -24,13 +25,6 @@
             <div class="col-md-10">
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="PersonID" class="control-label col-md-2"></label>
-            <div class="col-md-10">
-                <select asp-for="PersonID" class="form-control" asp-items="ViewBag.PersonID"></select>
-                <span asp-validation-for="PersonID" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
@@ -50,7 +44,7 @@
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-area="" asp-controller="People" asp-action="Details" asp-route-id="@Model.PersonID">Back to Person</a>
 </div>
 
 @section Scripts {

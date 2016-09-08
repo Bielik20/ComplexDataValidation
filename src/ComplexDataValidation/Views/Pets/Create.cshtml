@@ -12,6 +12,7 @@
         <h4>Pet</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="PersonID" value=@ViewData["PersonID"] />
         <div class="form-group">
             <label asp-for="Kind" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -24,12 +25,6 @@
             <div class="col-md-10">
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="PersonID" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="PersonID" class ="form-control" asp-items="ViewBag.PersonID"></select>
             </div>
         </div>
         <div class="form-group">
@@ -49,7 +44,7 @@
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-area="" asp-controller="People" asp-action="Details" asp-route-id="@ViewData["PersonID"]">Back to Person</a>
 </div>
 
 @section Scripts {
