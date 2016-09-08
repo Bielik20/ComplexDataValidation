@@ -35,5 +35,10 @@
 .accordion-link {
     float: right;
     font-size: 14px;
+    padding: 1px 5px;
     color: #337ab7 !important;
+    background-color: rgba(255,255,255,0.4);
+    -webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.35);
+    -moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.35);
+    box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.35);
 }
