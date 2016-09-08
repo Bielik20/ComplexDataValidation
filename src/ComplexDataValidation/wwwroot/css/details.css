@@ -31,3 +31,9 @@
 .table-responsive {
     border: 0px;
 }
+
+.accordion-link {
+    float: right;
+    font-size: 14px;
+    color: #337ab7 !important;
+}
