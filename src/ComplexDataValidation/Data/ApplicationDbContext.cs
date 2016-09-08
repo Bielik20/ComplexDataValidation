@@ -15,10 +15,12 @@ namespace ComplexDataValidation.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            //Usefull sites about it:
+            // http://stackoverflow.com/questions/7934229/entity-framework-foreign-key-inserts-with-auto-id
+            // http://stackoverflow.com/questions/5559043/entity-framework-code-first-two-foreign-keys-from-same-table
+            // http://ef.readthedocs.io/en/latest/modeling/relational/fk-constraints.html
+
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
         }
 
         public DbSet<Person> People { get; set; }
