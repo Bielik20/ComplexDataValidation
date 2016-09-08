@@ -33,7 +33,7 @@ namespace ComplexDataValidation.Controllers
                 return NotFound();
             }
 
-            var pet = await _context.Pets.SingleOrDefaultAsync(m => m.PersonID == id);
+            var pet = await _context.Pets.SingleOrDefaultAsync(m => m.ID == id);
             if (pet == null)
             {
                 return NotFound();
@@ -50,7 +50,7 @@ namespace ComplexDataValidation.Controllers
                 return NotFound();
             }
 
-            ViewData["PersonID"] = id;
+            ViewData["ID"] = id;
             return View();
         }
 
@@ -59,15 +59,15 @@ namespace ComplexDataValidation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersonID,Kind,Name,Submited")] Pet pet)
+        public async Task<IActionResult> Create([Bind("ID,Kind,Name,Submited")] Pet pet)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(pet);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Details", "People", new { id = pet.PersonID });
+                return RedirectToAction("Details", "People", new { id = pet.ID });
             }
-            ViewData["PersonID"] = pet.PersonID;
+            ViewData["ID"] = pet.ID;
             return View(pet);
         }
 
@@ -79,7 +79,7 @@ namespace ComplexDataValidation.Controllers
                 return NotFound();
             }
 
-            var pet = await _context.Pets.SingleOrDefaultAsync(m => m.PersonID == id);
+            var pet = await _context.Pets.SingleOrDefaultAsync(m => m.ID == id);
             if (pet == null)
             {
                 return NotFound();
@@ -92,9 +92,9 @@ namespace ComplexDataValidation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PersonID,Kind,Name,Submited")] Pet pet)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Kind,Name,Submited")] Pet pet)
         {
-            if (id != pet.PersonID)
+            if (id != pet.ID)
             {
                 return NotFound();
             }
@@ -108,7 +108,7 @@ namespace ComplexDataValidation.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PetExists(pet.PersonID))
+                    if (!PetExists(pet.ID))
                     {
                         return NotFound();
                     }
@@ -117,7 +117,7 @@ namespace ComplexDataValidation.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Details", "People", new { id = pet.PersonID });
+                return RedirectToAction("Details", "People", new { id = pet.ID });
             }
             return View(pet);
         }
@@ -130,7 +130,7 @@ namespace ComplexDataValidation.Controllers
                 return NotFound();
             }
 
-            var pet = await _context.Pets.SingleOrDefaultAsync(m => m.PersonID == id);
+            var pet = await _context.Pets.SingleOrDefaultAsync(m => m.ID == id);
             if (pet == null)
             {
                 return NotFound();
@@ -144,15 +144,15 @@ namespace ComplexDataValidation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pet = await _context.Pets.SingleOrDefaultAsync(m => m.PersonID == id);
+            var pet = await _context.Pets.SingleOrDefaultAsync(m => m.ID == id);
             _context.Pets.Remove(pet);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Details", "People", new { id = pet.PersonID });
+            return RedirectToAction("Details", "People", new { id = pet.ID });
         }
 
         private bool PetExists(int id)
         {
-            return _context.Pets.Any(e => e.PersonID == id);
+            return _context.Pets.Any(e => e.ID == id);
         }
     }
 }

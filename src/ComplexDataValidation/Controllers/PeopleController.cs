@@ -40,7 +40,7 @@ namespace ComplexDataValidation.Controllers
             }
 
             person.Credentials = await _context.Credentials.Where(x => x.PersonID == person.ID).FirstOrDefaultAsync();
-            person.Pet = await _context.Pets.Where(x => x.PersonID == person.ID).FirstOrDefaultAsync();
+            person.Pet = await _context.Pets.Where(x => x.ID == person.ID).FirstOrDefaultAsync();
             person.Books = await _context.Books.Where(x => x.PersonID == person.ID).ToListAsync();
             foreach (var book in person.Books)
             {

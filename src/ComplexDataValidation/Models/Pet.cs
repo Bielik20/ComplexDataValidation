@@ -12,7 +12,7 @@ namespace ComplexDataValidation.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int PersonID { get; set; }
+        public int ID { get; set; }
         public bool Submited { get; set; }
 
         [Required]
