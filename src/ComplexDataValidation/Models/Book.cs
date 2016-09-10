@@ -9,8 +9,11 @@ namespace ComplexDataValidation.Models
 {
     public class Book
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int PersonID { get; set; }
+        [ForeignKey("PersonID")]
         public Person Person { get; set; }
         public bool Submited { get; set; }
 

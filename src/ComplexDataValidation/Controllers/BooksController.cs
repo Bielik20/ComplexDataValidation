@@ -63,6 +63,13 @@ namespace ComplexDataValidation.Controllers
         {
             if (ModelState.IsValid)
             {
+                int _id;
+                do
+                {
+                    _id = new Random().Next();
+                } while (await _context.Books.Where(b => b.ID == _id).AnyAsync());
+
+                book.ID = _id;
                 _context.Add(book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
