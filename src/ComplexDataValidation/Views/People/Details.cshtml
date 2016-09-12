@@ -31,13 +31,13 @@
                     </a>
                     @if (Model.Credentials == null)
                     {
-                        <a asp-controller="Credentials" asp-action="Create" asp-route-id="@Model.ID" class="accordion-link">
+                        <a asp-controller="Credentials" asp-action="Create" asp-route-id="@Model.Id" class="accordion-link">
                             Create
                         </a>
                     }
                     else if (Model.Credentials.Submited == false)
                     {
-                        <a asp-controller="Credentials" asp-action="Edit" asp-route-id="@Model.ID" class="accordion-link">
+                        <a asp-controller="Credentials" asp-action="Edit" asp-route-id="@Model.Id" class="accordion-link">
                             Edit
                         </a>
                     }
@@ -72,13 +72,13 @@
                     </a>
                     @if (Model.Pet == null)
                     {
-                        <a asp-controller="Pets" asp-action="Create" asp-route-id="@Model.ID" class="accordion-link">
+                        <a asp-controller="Pets" asp-action="Create" asp-route-id="@Model.Id" class="accordion-link">
                             Create
                         </a>
                     }
                     else if (Model.Pet.Submited == false)
                     {
-                        <a asp-controller="Pets" asp-action="Edit" asp-route-id="@Model.ID" class="accordion-link">
+                        <a asp-controller="Pets" asp-action="Edit" asp-route-id="@Model.Id" class="accordion-link">
                             Edit
                         </a>
                     }
@@ -113,13 +113,13 @@
                     </a>
                     @*@if (lastBook == null)
                     {
-                        <a asp-controller="Information" asp-action="Create" asp-route-id="@lastBook.ID" class="accordion-link">
+                        <a asp-controller="Information" asp-action="Create" asp-route-id="@lastBook.Id" class="accordion-link">
                             Create
                         </a>
                     }
                     else if (lastBook.Submited == false)
                     {
-                        <a asp-controller="Information" asp-action="Edit" asp-route-id="@lastBook.ID" class="accordion-link">
+                        <a asp-controller="Information" asp-action="Edit" asp-route-id="@lastBook.Id" class="accordion-link">
                             Edit
                         </a>
                     }*@
@@ -206,6 +206,6 @@
 
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

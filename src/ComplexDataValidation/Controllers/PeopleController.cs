@@ -26,26 +26,26 @@ namespace ComplexDataValidation.Controllers
         }
 
         // GET: People/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var person = await _context.People.SingleOrDefaultAsync(m => m.ID == id);
+            var person = await _context.People.SingleOrDefaultAsync(m => m.Id == id);
             if (person == null)
             {
                 return NotFound();
             }
 
-            person.Credentials = await _context.Credentials.Where(x => x.ID == person.ID).FirstOrDefaultAsync();
-            person.Pet = await _context.Pets.Where(x => x.ID == person.ID).FirstOrDefaultAsync();
-            person.Books = await _context.Books.Where(x => x.PersonID == person.ID).ToListAsync();
+            person.Credentials = await _context.Credentials.Where(x => x.Id == person.Id).FirstOrDefaultAsync();
+            person.Pet = await _context.Pets.Where(x => x.Id == person.Id).FirstOrDefaultAsync();
+            person.Books = await _context.Books.Where(x => x.PersonId == person.Id).ToListAsync();
             foreach (var book in person.Books)
             {
-                book.Information = await _context.Information.Where(x => x.ID == book.ID).FirstOrDefaultAsync();
-                book.Chapters = await _context.Chapters.Where(x => x.BookID == book.ID).ToListAsync();
+                book.Information = await _context.Information.Where(x => x.Id == book.Id).FirstOrDefaultAsync();
+                book.Chapters = await _context.Chapters.Where(x => x.BookId == book.Id).ToListAsync();
             }
 
             return View(person);
@@ -62,10 +62,17 @@ namespace ComplexDataValidation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID")] Person person)
+        public async Task<IActionResult> Create([Bind("Id")] Person person)
         {
             if (ModelState.IsValid)
             {
+                var myId = Guid.NewGuid().ToString("N");
+                while (await _context.People.Where(x => x.Id == myId).AnyAsync())
+                {
+                    myId = Guid.NewGuid().ToString("N");
+                }
+                person.Id = myId;
+
                 _context.Add(person);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -74,14 +81,14 @@ namespace ComplexDataValidation.Controllers
         }
 
         // GET: People/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var person = await _context.People.SingleOrDefaultAsync(m => m.ID == id);
+            var person = await _context.People.SingleOrDefaultAsync(m => m.Id == id);
             if (person == null)
             {
                 return NotFound();
@@ -94,9 +101,9 @@ namespace ComplexDataValidation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID")] Person person)
+        public async Task<IActionResult> Edit(string id, [Bind("Id")] Person person)
         {
-            if (id != person.ID)
+            if (id != person.Id)
             {
                 return NotFound();
             }
@@ -110,7 +117,7 @@ namespace ComplexDataValidation.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonExists(person.ID))
+                    if (!PersonExists(person.Id))
                     {
                         return NotFound();
                     }
@@ -125,14 +132,14 @@ namespace ComplexDataValidation.Controllers
         }
 
         // GET: People/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var person = await _context.People.SingleOrDefaultAsync(m => m.ID == id);
+            var person = await _context.People.SingleOrDefaultAsync(m => m.Id == id);
             if (person == null)
             {
                 return NotFound();
@@ -144,17 +151,17 @@ namespace ComplexDataValidation.Controllers
         // POST: People/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var person = await _context.People.SingleOrDefaultAsync(m => m.ID == id);
+            var person = await _context.People.SingleOrDefaultAsync(m => m.Id == id);
             _context.People.Remove(person);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool PersonExists(int id)
+        private bool PersonExists(string id)
         {
-            return _context.People.Any(e => e.ID == id);
+            return _context.People.Any(e => e.Id == id);
         }
     }
 }
