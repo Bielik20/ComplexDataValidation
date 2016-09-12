@@ -22,18 +22,19 @@ namespace ComplexDataValidation.Controllers
         // GET: Pets
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Pets.ToListAsync());
+            var applicationDbContext = _context.Pets.Include(p => p.Person);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Pets/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var pet = await _context.Pets.SingleOrDefaultAsync(m => m.ID == id);
+            var pet = await _context.Pets.SingleOrDefaultAsync(m => m.Id == id);
             if (pet == null)
             {
                 return NotFound();
@@ -43,14 +44,14 @@ namespace ComplexDataValidation.Controllers
         }
 
         // GET: Pets/Create
-        public IActionResult Create(int id)
+        public IActionResult Create(string id)
         {
-            if (id == 0)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            ViewData["ID"] = id;
+            ViewData["Id"] = id;
             return View();
         }
 
@@ -59,27 +60,27 @@ namespace ComplexDataValidation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Kind,Name,Submited")] Pet pet)
+        public async Task<IActionResult> Create([Bind("Id,Kind,Name,Submited")] Pet pet)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(pet);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Details", "People", new { id = pet.ID });
+                return RedirectToAction("Details", "People", new { id = pet.Id });
             }
-            ViewData["ID"] = pet.ID;
+            ViewData["Id"] = pet.Id;
             return View(pet);
         }
 
         // GET: Pets/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var pet = await _context.Pets.SingleOrDefaultAsync(m => m.ID == id);
+            var pet = await _context.Pets.SingleOrDefaultAsync(m => m.Id == id);
             if (pet == null)
             {
                 return NotFound();
@@ -92,9 +93,9 @@ namespace ComplexDataValidation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Kind,Name,Submited")] Pet pet)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Kind,Name,Submited")] Pet pet)
         {
-            if (id != pet.ID)
+            if (id != pet.Id)
             {
                 return NotFound();
             }
@@ -108,7 +109,7 @@ namespace ComplexDataValidation.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PetExists(pet.ID))
+                    if (!PetExists(pet.Id))
                     {
                         return NotFound();
                     }
@@ -117,20 +118,20 @@ namespace ComplexDataValidation.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Details", "People", new { id = pet.ID });
+                return RedirectToAction("Details", "People", new { id = pet.Id });
             }
             return View(pet);
         }
 
         // GET: Pets/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var pet = await _context.Pets.SingleOrDefaultAsync(m => m.ID == id);
+            var pet = await _context.Pets.SingleOrDefaultAsync(m => m.Id == id);
             if (pet == null)
             {
                 return NotFound();
@@ -142,17 +143,17 @@ namespace ComplexDataValidation.Controllers
         // POST: Pets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var pet = await _context.Pets.SingleOrDefaultAsync(m => m.ID == id);
+            var pet = await _context.Pets.SingleOrDefaultAsync(m => m.Id == id);
             _context.Pets.Remove(pet);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Details", "People", new { id = pet.ID });
+            return RedirectToAction("Details", "People", new { id = pet.Id });
         }
 
-        private bool PetExists(int id)
+        private bool PetExists(string id)
         {
-            return _context.Pets.Any(e => e.ID == id);
+            return _context.Pets.Any(e => e.Id == id);
         }
     }
 }
