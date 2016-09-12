@@ -9,12 +9,14 @@ namespace ComplexDataValidation.Models
 {
     public class Credentials
     {
-        [Key]
+        [Key, ForeignKey("Person")]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ID { get; set; } //PersonID
+        public string Id { get; set; } //PersonId
         public bool Submited { get; set; }
 
         public string Name { get; set; }
         public int Age { get; set; }
+
+        public Person Person { get; set; }
     }
 }

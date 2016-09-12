@@ -9,12 +9,14 @@ namespace ComplexDataValidation.Models
 {
     public class Information
     {
-        [Key]
+        [Key, ForeignKey("Person")]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ID { get; set; } //BookID
+        public string Id { get; set; } //BookId
         public bool Submited { get; set; }
 
         public string Titile { get; set; }
         public DateTime CreationDate { get; set; }
+
+        public Person Person { get; set; }
     }
 }

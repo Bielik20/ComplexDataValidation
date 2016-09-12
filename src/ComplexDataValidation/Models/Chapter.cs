@@ -9,11 +9,17 @@ namespace ComplexDataValidation.Models
 {
     public class Chapter
     {
-        public int ID { get; set; }
-        public int BookID { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string Id { get; set; }
         public bool Submited { get; set; }
 
         public string Description { get; set; }
         public DateTime CreationDate { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string BookId { get; set; }
+        [ForeignKey("BookId")]
+        public Book Book { get; set; }
     }
 }

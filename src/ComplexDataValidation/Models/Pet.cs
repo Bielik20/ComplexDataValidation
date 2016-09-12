@@ -10,13 +10,15 @@ namespace ComplexDataValidation.Models
 {
     public class Pet
     {
-        [Key]
+        [Key, ForeignKey("Person")]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ID { get; set; } //PersonID
+        public string Id { get; set; } //PersonId
         public bool Submited { get; set; }
 
         [Required]
         public string Name { get; set; }
         public KindEnum Kind { get; set; }
+
+        public Person Person { get; set; }
     }
 }
