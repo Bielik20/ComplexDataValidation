@@ -1,0 +1,40 @@
+@model ComplexDataValidation.Models.Information
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Information</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreationDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Submited)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Submited)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Titile)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Titile)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <a asp-area="" asp-controller="People" asp-action="Details" asp-route-id="@ViewData["PersonId"]">Back to Person</a>
+        </div>
+    </form>
+</div>
