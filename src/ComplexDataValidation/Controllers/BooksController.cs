@@ -22,18 +22,19 @@ namespace ComplexDataValidation.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Books.ToListAsync());
+            var applicationDbContext = _context.Books.Include(b => b.Person);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Books/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var book = await _context.Books.SingleOrDefaultAsync(m => m.ID == id);
+            var book = await _context.Books.SingleOrDefaultAsync(m => m.Id == id);
             if (book == null)
             {
                 return NotFound();
@@ -43,14 +44,14 @@ namespace ComplexDataValidation.Controllers
         }
 
         // GET: Books/Create
-        public IActionResult Create(int id)
+        public IActionResult Create(string id)
         {
-            if (id == 0)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            ViewData["ID"] = id;
+            ViewData["PersonId"] = id;
             return View();
         }
 
@@ -59,39 +60,38 @@ namespace ComplexDataValidation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,PersonID,Submited")] Book book)
+        public async Task<IActionResult> Create([Bind("Id,PersonId,Submited")] Book book)
         {
             if (ModelState.IsValid)
             {
-                int _id;
-                do
+                var myId = Guid.NewGuid().ToString("N");
+                while (await _context.Books.Where(x => x.Id == myId).AnyAsync())
                 {
-                    _id = new Random().Next();
-                } while (await _context.Books.Where(b => b.ID == _id).AnyAsync());
+                    myId = Guid.NewGuid().ToString("N");
+                }
+                book.Id = myId;
 
-                book.ID = _id;
                 _context.Add(book);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "People", new { id = book.PersonId });
             }
-            ViewData["PersonID"] = new SelectList(_context.People, "ID", "ID", book.PersonID);
+            ViewData["PersonId"] = book.PersonId;
             return View(book);
         }
 
         // GET: Books/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var book = await _context.Books.SingleOrDefaultAsync(m => m.ID == id);
+            var book = await _context.Books.SingleOrDefaultAsync(m => m.Id == id);
             if (book == null)
             {
                 return NotFound();
             }
-            ViewData["PersonID"] = new SelectList(_context.People, "ID", "ID", book.PersonID);
             return View(book);
         }
 
@@ -100,9 +100,9 @@ namespace ComplexDataValidation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,PersonID,Submited")] Book book)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,PersonId,Submited")] Book book)
         {
-            if (id != book.ID)
+            if (id != book.Id)
             {
                 return NotFound();
             }
@@ -116,7 +116,7 @@ namespace ComplexDataValidation.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookExists(book.ID))
+                    if (!BookExists(book.Id))
                     {
                         return NotFound();
                     }
@@ -125,21 +125,20 @@ namespace ComplexDataValidation.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "People", new { id = book.PersonId });
             }
-            ViewData["PersonID"] = new SelectList(_context.People, "ID", "ID", book.PersonID);
             return View(book);
         }
 
         // GET: Books/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var book = await _context.Books.SingleOrDefaultAsync(m => m.ID == id);
+            var book = await _context.Books.SingleOrDefaultAsync(m => m.Id == id);
             if (book == null)
             {
                 return NotFound();
@@ -151,17 +150,17 @@ namespace ComplexDataValidation.Controllers
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var book = await _context.Books.SingleOrDefaultAsync(m => m.ID == id);
+            var book = await _context.Books.SingleOrDefaultAsync(m => m.Id == id);
             _context.Books.Remove(book);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "People", new { id = book.PersonId });
         }
 
-        private bool BookExists(int id)
+        private bool BookExists(string id)
         {
-            return _context.Books.Any(e => e.ID == id);
+            return _context.Books.Any(e => e.Id == id);
         }
     }
 }

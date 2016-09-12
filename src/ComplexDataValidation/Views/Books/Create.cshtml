@@ -11,7 +11,7 @@
         <h4>Book</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="PersonID" value=@ViewData["ID"] />
+        <input type="hidden" asp-for="PersonId" value=@ViewData["PersonId"] />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <div class="checkbox">
@@ -29,7 +29,7 @@
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-area="" asp-controller="People" asp-action="Details" asp-route-id="@ViewData["PersonId"]">Back to Person</a>
 </div>
 
 @section Scripts {

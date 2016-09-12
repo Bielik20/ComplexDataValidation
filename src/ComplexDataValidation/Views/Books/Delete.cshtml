@@ -22,7 +22,7 @@
     <form asp-action="Delete">
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            <a asp-action="Index">Back to List</a>
+            <a asp-area="" asp-controller="People" asp-action="Details" asp-route-id="@Model.PersonId">Back to Person</a>
         </div>
     </form>
 </div>
