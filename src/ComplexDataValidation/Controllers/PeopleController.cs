@@ -66,7 +66,7 @@ namespace ComplexDataValidation.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(person);
+                _context.People.Add(person);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -105,7 +105,7 @@ namespace ComplexDataValidation.Controllers
             {
                 try
                 {
-                    _context.Update(person);
+                    //_context.Update(person);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

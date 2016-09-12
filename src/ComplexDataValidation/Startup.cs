@@ -38,8 +38,7 @@ namespace ComplexDataValidation
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=ComplexDataValidation;Trusted_Connection=True;";
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
+            services.AddScoped((_) => new ApplicationDbContext(Configuration["Data:DefaultConnection:ConnectionString"]));
 
             services.AddMvc();
         }

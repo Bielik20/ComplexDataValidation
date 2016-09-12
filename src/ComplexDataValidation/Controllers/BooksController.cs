@@ -70,7 +70,7 @@ namespace ComplexDataValidation.Controllers
                 } while (await _context.Books.Where(b => b.ID == _id).AnyAsync());
 
                 book.ID = _id;
-                _context.Add(book);
+                _context.Books.Add(book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -111,7 +111,7 @@ namespace ComplexDataValidation.Controllers
             {
                 try
                 {
-                    _context.Update(book);
+                    //_context.Update(book);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

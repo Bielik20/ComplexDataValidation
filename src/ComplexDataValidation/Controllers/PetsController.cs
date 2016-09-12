@@ -63,7 +63,7 @@ namespace ComplexDataValidation.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(pet);
+                _context.Pets.Add(pet);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Details", "People", new { id = pet.ID });
             }
@@ -103,7 +103,7 @@ namespace ComplexDataValidation.Controllers
             {
                 try
                 {
-                    _context.Update(pet);
+                    //_context.Update(pet);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

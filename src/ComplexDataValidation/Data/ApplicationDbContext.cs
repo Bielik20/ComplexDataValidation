@@ -2,24 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using ComplexDataValidation.Models;
+using System.Data.Entity;
 
 namespace ComplexDataValidation.Data
 {
+    [DbConfigurationType(typeof(CodeConfig))]
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        public ApplicationDbContext(string nameOrConnectionString) : base(nameOrConnectionString)
         { }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(DbModelBuilder builder)
         {
-            //Usefull sites about it:
-            // http://stackoverflow.com/questions/7934229/entity-framework-foreign-key-inserts-with-auto-id
-            // http://stackoverflow.com/questions/5559043/entity-framework-code-first-two-foreign-keys-from-same-table
-            // http://ef.readthedocs.io/en/latest/modeling/relational/fk-constraints.html
-
             base.OnModelCreating(builder);
         }
 
