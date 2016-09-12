@@ -195,7 +195,7 @@
                         </table>
                     </div>
                     <div class="btn-group btn-group-justified" style="margin-top:25px;">
-                        <a href="ChangeTreatment/01.html" class="btn btn-default">Start New Book</a>
+                        <a asp-controller="Books" asp-action="FastCreate" asp-route-id="@Model.Id" class="btn btn-default">Start New Book</a>
                         <a href="AddEntry.html" class="btn btn-default">Add Chapter</a>
                     </div>
                 </div>

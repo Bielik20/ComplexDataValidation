@@ -43,6 +43,28 @@ namespace ComplexDataValidation.Controllers
             return View(book);
         }
 
+        // GET: Books/FastCreate
+        public async Task<IActionResult> FastCreate(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var book = new Book();
+            var myId = Guid.NewGuid().ToString("N");
+            while (await _context.Books.Where(x => x.Id == myId).AnyAsync())
+            {
+                myId = Guid.NewGuid().ToString("N");
+            }
+            book.Id = myId;
+            book.PersonId = id;
+            _context.Add(book);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", "People", new { id = book.PersonId });
+        }
+
         // GET: Books/Create
         public IActionResult Create(string id)
         {
