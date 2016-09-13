@@ -111,7 +111,11 @@
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
                         Latest Book Information
                     </a>
-                    @if (lastBook.Information == null)
+                    @if (lastBook == null)
+                    {
+
+                    }
+                    else if (lastBook.Information == null)
                     {
                         <a asp-controller="Information" asp-action="Create" asp-route-id="@lastBook.Id" class="accordion-link">
                             Create
