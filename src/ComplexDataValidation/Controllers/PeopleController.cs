@@ -72,8 +72,21 @@ namespace ComplexDataValidation.Controllers
                     myId = Guid.NewGuid().ToString("N");
                 }
                 person.Id = myId;
-
                 _context.Add(person);
+
+                var book = new Book()
+                {
+                    PersonId = person.Id,
+                    Submited = false
+                };
+                myId = Guid.NewGuid().ToString("N");
+                while (await _context.Books.Where(x => x.Id == myId).AnyAsync())
+                {
+                    myId = Guid.NewGuid().ToString("N");
+                }
+                book.Id = myId;
+                _context.Add(book);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
