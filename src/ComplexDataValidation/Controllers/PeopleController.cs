@@ -41,12 +41,21 @@ namespace ComplexDataValidation.Controllers
 
             person.Credentials = await _context.Credentials.Where(x => x.Id == person.Id).FirstOrDefaultAsync();
             person.Pet = await _context.Pets.Where(x => x.Id == person.Id).FirstOrDefaultAsync();
-            person.Books = await _context.Books.Where(x => x.PersonId == person.Id).ToListAsync();
+            var booksQuery = _context.Books
+                       .Where(p => p.PersonId == person.Id)
+                       .Select(p => p);
+            person.Books = await booksQuery.ToListAsync();
             foreach (var book in person.Books)
             {
                 book.Information = await _context.Information.Where(x => x.Id == book.Id).FirstOrDefaultAsync();
-                book.Chapters = await _context.Chapters.Where(x => x.BookId == book.Id).ToListAsync();
+
+                var chaptersQuery = from c in _context.Chapters
+                                    where c.BookId == book.Id
+                                    orderby c.CreationDate
+                                    select c;
+                book.Chapters = await chaptersQuery.ToListAsync();
             }
+            person.Books.OrderBy(b => b.Information.CreationDate).ThenBy(b => b.Id);
 
             return View(person);
         }
