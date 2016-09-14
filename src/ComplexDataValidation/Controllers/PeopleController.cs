@@ -39,6 +39,12 @@ namespace ComplexDataValidation.Controllers
                 return NotFound();
             }
 
+            await GetPerson(person);
+            return View(person);
+        }
+
+        private async Task GetPerson(Person person)
+        {
             person.Credentials = await _context.Credentials.Where(x => x.Id == person.Id).FirstOrDefaultAsync();
             person.Pet = await _context.Pets.Where(x => x.Id == person.Id).FirstOrDefaultAsync();
             var booksQuery = _context.Books
@@ -56,8 +62,6 @@ namespace ComplexDataValidation.Controllers
                 book.Chapters = await chaptersQuery.ToListAsync();
             }
             person.Books.OrderBy(b => b.Information.CreationDate).ThenBy(b => b.Id);
-
-            return View(person);
         }
 
         // GET: People/Create
@@ -82,24 +86,33 @@ namespace ComplexDataValidation.Controllers
                 }
                 person.Id = myId;
                 _context.Add(person);
-
-                var book = new Book()
-                {
-                    PersonId = person.Id,
-                    Submited = false
-                };
-                myId = Guid.NewGuid().ToString("N");
-                while (await _context.Books.Where(x => x.Id == myId).AnyAsync())
-                {
-                    myId = Guid.NewGuid().ToString("N");
-                }
-                book.Id = myId;
-                _context.Add(book);
-
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+
+                return RedirectToAction("FastCreate", "Books", new { id = person.Id });
             }
             return View(person);
+        }
+
+        public async Task<IActionResult> BookCreate(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var person = await _context.People.SingleOrDefaultAsync(m => m.Id == id);
+            if (person == null)
+            {
+                return NotFound();
+            }
+
+            if (await _context.Books.Where(x => x.PersonId == id && x.Submited == false).AnyAsync())
+            {
+                ViewData["BookSubmitError"] = "You must submit previous book before adding new one.";
+                await GetPerson(person);
+                return View("Details", person);
+            }
+
+            return RedirectToAction("FastCreate", "Books", new { id = id });
         }
 
         // GET: People/Edit/5

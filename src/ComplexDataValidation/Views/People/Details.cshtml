@@ -222,8 +222,11 @@
                             </tbody>
                         </table>
                     </div>
+                    <p class="text-danger">
+                        @ViewData["BookSubmitError"]
+                    </p>
                     <div class="btn-group btn-group-justified" style="margin-top:25px;">
-                        <a asp-controller="Books" asp-action="FastCreate" asp-route-id="@Model.Id" class="btn btn-default">
+                        <a asp-controller="People" asp-action="BookCreate" asp-route-id="@Model.Id" class="btn btn-default">
                             Start New Book
                         </a>
                         <a asp-controller="Chapters" asp-action="Create" asp-route-bookId="@lastBook.Id" asp-route-personId="@Model.Id" class="btn btn-default">
