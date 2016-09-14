@@ -117,13 +117,13 @@
                     }
                     else if (lastBook.Information == null)
                     {
-                        <a asp-controller="Information" asp-action="Create" asp-route-id="@lastBook.Id" class="accordion-link">
+                        <a asp-controller="Information" asp-action="Create" asp-route-bookId="@lastBook.Id" asp-route-personId="@Model.Id" class="accordion-link">
                             Create
                         </a>
                     }
                     else if (lastBook.Information.Submited == false)
                     {
-                        <a asp-controller="Information" asp-action="Edit" asp-route-id="@lastBook.Id" class="accordion-link">
+                        <a asp-controller="Information" asp-action="Edit" asp-route-id="@lastBook.Id" asp-route-personId="@Model.Id" class="accordion-link">
                             Edit
                         </a>
                     }

@@ -44,15 +44,14 @@ namespace ComplexDataValidation.Controllers
         }
 
         // GET: Information/Create
-        public async Task<IActionResult> Create(string id)
+        public IActionResult Create(string bookId, string personId)
         {
-            if (id == null)
+            if (bookId == null || personId == null)
             {
                 return NotFound();
             }
-            var book = await _context.Books.Where(x => x.Id == id).FirstOrDefaultAsync();
-            ViewData["PersonId"] = book.PersonId;
-            ViewData["Id"] = id;
+            ViewData["PersonId"] = personId;
+            ViewData["Id"] = bookId;
             return View();
         }
 
@@ -61,22 +60,21 @@ namespace ComplexDataValidation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CreationDate,Submited,Titile")] Information information)
+        public async Task<IActionResult> Create([Bind("Id,CreationDate,Submited,Titile")] Information information, string personId)
         {
-            var book = await _context.Books.Where(x => x.Id == information.Id).FirstOrDefaultAsync();
             if (ModelState.IsValid)
             {
                 _context.Add(information);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Details", "People", new { id = book.PersonId });
+                return RedirectToAction("Details", "People", new { id = personId });
             }
-            ViewData["PersonId"] = book.PersonId;
+            ViewData["PersonId"] = personId;
             ViewData["Id"] = information.Id;
             return View(information);
         }
 
         // GET: Information/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(string id, string personId)
         {
             if (id == null)
             {
@@ -88,8 +86,7 @@ namespace ComplexDataValidation.Controllers
             {
                 return NotFound();
             }
-            var book = await _context.Books.Where(x => x.Id == information.Id).FirstOrDefaultAsync();
-            ViewData["PersonId"] = book.PersonId;
+            ViewData["PersonId"] = personId;
             return View(information);
         }
 
@@ -98,13 +95,12 @@ namespace ComplexDataValidation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,CreationDate,Submited,Titile")] Information information)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,CreationDate,Submited,Titile")] Information information, string personId)
         {
-            if (id != information.Id)
+            if (id != information.Id || personId == null)
             {
                 return NotFound();
             }
-            var book = await _context.Books.Where(x => x.Id == information.Id).FirstOrDefaultAsync();
 
             if (ModelState.IsValid)
             {
@@ -124,9 +120,9 @@ namespace ComplexDataValidation.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Details", "People", new { id = book.PersonId });
+                return RedirectToAction("Details", "People", new { id = personId });
             }
-            ViewData["PersonId"] = book.PersonId;
+            ViewData["PersonId"] = personId;
             return View(information);
         }
 

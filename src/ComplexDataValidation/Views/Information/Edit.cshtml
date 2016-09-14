@@ -11,8 +11,9 @@
         <h4>Information</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="Submited" />
+        <input type="hidden" name="personId" value="@ViewData["PersonId"]" />
         <div class="form-group">
             <label asp-for="CreationDate" class="col-md-2 control-label"></label>
             <div class="col-md-10">
