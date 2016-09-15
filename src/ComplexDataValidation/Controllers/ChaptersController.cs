@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ComplexDataValidation.Data;
 using ComplexDataValidation.Models;
+using ComplexDataValidation.Helpers;
 
 namespace ComplexDataValidation.Controllers
 {
     public class ChaptersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly EntitiesManager _entManager;
 
-        public ChaptersController(ApplicationDbContext context)
+        public ChaptersController(ApplicationDbContext context, EntitiesManager entManager)
         {
-            _context = context;    
+            _context = context;
+            _entManager = entManager;
         }
 
         // GET: Chapters
@@ -64,14 +67,7 @@ namespace ComplexDataValidation.Controllers
         {
             if (ModelState.IsValid)
             {
-                var myId = Guid.NewGuid().ToString("N");
-                while (await _context.Chapters.Where(x => x.Id == myId).AnyAsync())
-                {
-                    myId = Guid.NewGuid().ToString("N");
-                }
-                chapter.Id = myId;
-
-                _context.Add(chapter);
+                await _entManager.CreateChapter(chapter, chapter.BookId);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Details", "People", new { id = personId });
             }

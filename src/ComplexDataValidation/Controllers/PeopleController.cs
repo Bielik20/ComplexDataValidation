@@ -14,12 +14,12 @@ namespace ComplexDataValidation.Controllers
     public class PeopleController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly EntitiesManager _eManager;
+        private readonly EntitiesManager _entManager;
 
-        public PeopleController(ApplicationDbContext context, EntitiesManager eManager)
+        public PeopleController(ApplicationDbContext context, EntitiesManager entManager)
         {
             _context = context;
-            _eManager = eManager;
+            _entManager = entManager;
         }
 
         // GET: People
@@ -42,7 +42,7 @@ namespace ComplexDataValidation.Controllers
                 return NotFound();
             }
 
-            await _eManager.RetrievePerson(person);
+            await _entManager.RetrievePerson(person);
             return View(person);
         }
 
@@ -61,13 +61,7 @@ namespace ComplexDataValidation.Controllers
         {
             if (ModelState.IsValid)
             {
-                var myId = Guid.NewGuid().ToString("N");
-                while (await _context.People.Where(x => x.Id == myId).AnyAsync())
-                {
-                    myId = Guid.NewGuid().ToString("N");
-                }
-                person.Id = myId;
-                _context.Add(person);
+                await _entManager.CreatePerson(person);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("FastCreate", "Books", new { id = person.Id });
@@ -90,7 +84,7 @@ namespace ComplexDataValidation.Controllers
             if (await _context.Books.Where(x => x.PersonId == id && x.Submited == false).AnyAsync())
             {
                 ViewData["BookSubmitError"] = "You must submit previous book before adding new one.";
-                await _eManager.RetrievePerson(person);
+                await _entManager.RetrievePerson(person);
                 return View("Details", person);
             }
 
@@ -171,8 +165,8 @@ namespace ComplexDataValidation.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var person = await _context.People.SingleOrDefaultAsync(m => m.Id == id);
-            await _eManager.RetrievePerson(person);
-            await _eManager.DeletePerson(person);
+            await _entManager.RetrievePerson(person);
+            await _entManager.DeletePerson(person);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }

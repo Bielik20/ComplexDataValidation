@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ComplexDataValidation.Data;
 using ComplexDataValidation.Models;
+using ComplexDataValidation.Helpers;
 
 namespace ComplexDataValidation.Controllers
 {
     public class BooksController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly EntitiesManager _entManager;
 
-        public BooksController(ApplicationDbContext context)
+        public BooksController(ApplicationDbContext context, EntitiesManager entManager)
         {
-            _context = context;    
+            _context = context;
+            _entManager = entManager;
         }
 
         // GET: Books
@@ -52,14 +55,7 @@ namespace ComplexDataValidation.Controllers
             }
 
             var book = new Book();
-            var myId = Guid.NewGuid().ToString("N");
-            while (await _context.Books.Where(x => x.Id == myId).AnyAsync())
-            {
-                myId = Guid.NewGuid().ToString("N");
-            }
-            book.Id = myId;
-            book.PersonId = id;
-            _context.Add(book);
+            await _entManager.CreateBook(book, id);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Details", "People", new { id = book.PersonId });
@@ -86,14 +82,7 @@ namespace ComplexDataValidation.Controllers
         {
             if (ModelState.IsValid)
             {
-                var myId = Guid.NewGuid().ToString("N");
-                while (await _context.Books.Where(x => x.Id == myId).AnyAsync())
-                {
-                    myId = Guid.NewGuid().ToString("N");
-                }
-                book.Id = myId;
-
-                _context.Add(book);
+                await _entManager.CreateBook(book, book.PersonId);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Details", "People", new { id = book.PersonId });
             }
