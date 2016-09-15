@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ComplexDataValidation.Data;
 using ComplexDataValidation.Models;
+using ComplexDataValidation.Helpers;
 
 namespace ComplexDataValidation.Controllers
 {
     public class PeopleController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly EntitiesManager _eManager;
 
-        public PeopleController(ApplicationDbContext context)
+        public PeopleController(ApplicationDbContext context, EntitiesManager eManager)
         {
-            _context = context;    
+            _context = context;
+            _eManager = eManager;
         }
 
         // GET: People
@@ -39,29 +42,8 @@ namespace ComplexDataValidation.Controllers
                 return NotFound();
             }
 
-            await GetPerson(person);
+            await _eManager.RetrievePerson(person);
             return View(person);
-        }
-
-        private async Task GetPerson(Person person)
-        {
-            person.Credentials = await _context.Credentials.Where(x => x.Id == person.Id).FirstOrDefaultAsync();
-            person.Pet = await _context.Pets.Where(x => x.Id == person.Id).FirstOrDefaultAsync();
-            var booksQuery = _context.Books
-                       .Where(p => p.PersonId == person.Id)
-                       .Select(p => p);
-            person.Books = await booksQuery.ToListAsync();
-            foreach (var book in person.Books)
-            {
-                book.Information = await _context.Information.Where(x => x.Id == book.Id).FirstOrDefaultAsync();
-
-                var chaptersQuery = from c in _context.Chapters
-                                    where c.BookId == book.Id
-                                    orderby c.CreationDate
-                                    select c;
-                book.Chapters = await chaptersQuery.ToListAsync();
-            }
-            person.Books.OrderBy(b => b.Information.CreationDate).ThenBy(b => b.Id);
         }
 
         // GET: People/Create
@@ -108,7 +90,7 @@ namespace ComplexDataValidation.Controllers
             if (await _context.Books.Where(x => x.PersonId == id && x.Submited == false).AnyAsync())
             {
                 ViewData["BookSubmitError"] = "You must submit previous book before adding new one.";
-                await GetPerson(person);
+                await _eManager.RetrievePerson(person);
                 return View("Details", person);
             }
 
@@ -189,7 +171,8 @@ namespace ComplexDataValidation.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var person = await _context.People.SingleOrDefaultAsync(m => m.Id == id);
-            _context.People.Remove(person);
+            await _eManager.RetrievePerson(person);
+            await _eManager.DeletePerson(person);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
