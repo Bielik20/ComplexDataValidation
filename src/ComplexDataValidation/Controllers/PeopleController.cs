@@ -81,14 +81,27 @@ namespace ComplexDataValidation.Controllers
                 return NotFound();
             }
 
-            if (await _context.Books.Where(x => x.PersonId == id && x.Submited == false).AnyAsync())
+            if (await IsBookCompleted(id) == false)
             {
-                ViewData["BookSubmitError"] = "You must submit previous book before adding new one.";
+                ViewData["BookSubmitError"] = "You must fill all book information first.";
                 await _entManager.RetrievePerson(person);
                 return View("Details", person);
             }
 
             return RedirectToAction("FastCreate", "Books", new { id = id });
+        }
+
+        private async Task<bool> IsBookCompleted(string personId)
+        {
+            foreach (var book in await _context.Books.Where(x => x.PersonId == personId && x.Submited == false).ToListAsync())
+            {
+                await _entManager.RetrieveBook(book);
+                if (book.Information == null)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         // GET: People/Edit/5
