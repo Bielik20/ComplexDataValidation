@@ -28,15 +28,21 @@ namespace ComplexDataValidation.Helpers
 
             person.Credentials = await _context.Credentials.Where(x => x.Id == person.Id).FirstOrDefaultAsync();
             person.Pet = await _context.Pets.Where(x => x.Id == person.Id).FirstOrDefaultAsync();
+
             var booksQuery = _context.Books
                        .Where(p => p.PersonId == person.Id)
                        .Select(p => p);
             person.Books = await booksQuery.ToListAsync();
+
             foreach (var book in person.Books)
             {
                 await RetrieveBook(book);
             }
-            person.Books.OrderBy(b => b.Information.CreationDate).ThenBy(b => b.Id);
+
+            var nulls = person.Books.Where(x => x.Information == null);
+            var nonulls = person.Books.Where(x => x.Information != null);
+            nonulls.OrderBy(b => b.Information.CreationDate);
+            person.Books = nonulls.Concat(nulls).ToList();
         }
 
         public async Task RetrieveBook(Book book)
