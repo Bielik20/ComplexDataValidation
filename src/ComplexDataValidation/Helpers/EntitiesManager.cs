@@ -19,6 +19,11 @@ namespace ComplexDataValidation.Helpers
 
         public async Task RetrievePerson(Person person)
         {
+            if (person == null)
+            {
+                return;
+            }
+
             person.Credentials = await _context.Credentials.Where(x => x.Id == person.Id).FirstOrDefaultAsync();
             person.Pet = await _context.Pets.Where(x => x.Id == person.Id).FirstOrDefaultAsync();
             var booksQuery = _context.Books
@@ -27,15 +32,25 @@ namespace ComplexDataValidation.Helpers
             person.Books = await booksQuery.ToListAsync();
             foreach (var book in person.Books)
             {
-                book.Information = await _context.Information.Where(x => x.Id == book.Id).FirstOrDefaultAsync();
-
-                var chaptersQuery = from c in _context.Chapters
-                                    where c.BookId == book.Id
-                                    orderby c.CreationDate
-                                    select c;
-                book.Chapters = await chaptersQuery.ToListAsync();
+                await RetrieveBook(book);
             }
             person.Books.OrderBy(b => b.Information.CreationDate).ThenBy(b => b.Id);
+        }
+
+        public async Task RetrieveBook(Book book)
+        {
+            if (book == null)
+            {
+                return;
+            }
+
+            book.Information = await _context.Information.Where(x => x.Id == book.Id).FirstOrDefaultAsync();
+
+            var chaptersQuery = from c in _context.Chapters
+                                where c.BookId == book.Id
+                                orderby c.CreationDate
+                                select c;
+            book.Chapters = await chaptersQuery.ToListAsync();
         }
 
         public async Task DeletePerson(Person person)
