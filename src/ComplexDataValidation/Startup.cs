@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ComplexDataValidation.Data;
 using Microsoft.EntityFrameworkCore;
+using ComplexDataValidation.Helpers;
 
 namespace ComplexDataValidation
 {
@@ -40,6 +41,8 @@ namespace ComplexDataValidation
 
             var connection = @"Server=(localdb)\mssqllocaldb;Database=ComplexDataValidation;Trusted_Connection=True;";
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
+
+            services.AddTransient<EntitiesManager, EntitiesManager>();
 
             services.AddMvc();
         }
