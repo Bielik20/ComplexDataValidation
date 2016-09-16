@@ -39,9 +39,9 @@ namespace ComplexDataValidation.Helpers
                 await RetrieveBook(book);
             }
 
+            var nonulls = person.Books.Where(x => x.Information != null)
+                .OrderBy(b => b.Information.CreationDate);
             var nulls = person.Books.Where(x => x.Information == null);
-            var nonulls = person.Books.Where(x => x.Information != null);
-            nonulls.OrderBy(b => b.Information.CreationDate);
             person.Books = nonulls.Concat(nulls).ToList();
         }
 
