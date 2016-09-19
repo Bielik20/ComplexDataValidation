@@ -86,7 +86,11 @@
                 </a>
             </h3>
             <div class="panel-link col-xs-3 col-sm-2">
-                @if (lastBook.Information == null)
+                @if (lastBook.Chapters.Capacity > 0)
+                {
+                    <div style="color: darkgray; display: block">Edit</div>
+                }
+                else if (lastBook.Information == null)
                 {
                     <a asp-controller="Information" asp-action="Create" asp-route-bookId="@lastBook.Id" asp-route-personId="@Model.Id">
                         Create
@@ -99,7 +103,6 @@
                     </a>
                 }
             </div>
-
         </div>
 
         <div id="collapse3" class="panel-collapse collapse">
@@ -149,7 +152,7 @@
                                     </td>
                                     <td>
                                         <a asp-controller="Books" asp-action="Details" asp-route-id="@item.Id">
-                                            Details
+                                            <big><span class="glyphicon glyphicon-info-sign"></span></big>
                                         </a>
                                     </td>
                                 </tr>
@@ -168,8 +171,8 @@
                                             <td>
                                                 @if (chapter.Submited == false)
                                                 {
-                                                    <a asp-controller="Chapters" asp-action="Edit" asp-route-id="@chapter.Id" asp-route-personId="@Model.Id">
-                                                        Edit
+                                                    <a asp-controller="Chapters" asp-action="Delete" asp-route-id="@chapter.Id" asp-route-personId="@Model.Id">
+                                                        <big><span class="glyphicon glyphicon-remove text-danger"></span></big> 
                                                     </a>
                                                 }
                                             </td>
