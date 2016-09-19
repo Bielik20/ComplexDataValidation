@@ -16,145 +16,143 @@
 <div>
     <h4>Details</h4>
     <hr />
-    <dl class="dl-horizontal">
-    </dl>
+    <dl class="dl-horizontal"></dl>
 </div>
 
 
-<div class="container">
-    <div class="panel-group" id="accordion">
-        <div class="panel panel-default">
-            <div class="panel-heading row" style="background: #9ecca7">
-                <h3 class="panel-title col-xs-9 col-sm-10">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                        Credentials
+<div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+        <div class="panel-heading row" style="background: #9ecca7">
+            <h3 class="panel-title col-xs-9 col-sm-10">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                    Credentials
+                </a>
+            </h3>
+            <div class="panel-link col-xs-3 col-sm-2">
+                @if (Model.Credentials == null)
+                {
+                    <a asp-controller="Credentials" asp-action="Create" asp-route-id="@Model.Id">
+                        Create
                     </a>
-                </h3>
-                <div class="panel-link col-xs-3 col-sm-2">
-                    @if (Model.Credentials == null)
-                    {
-                        <a asp-controller="Credentials" asp-action="Create" asp-route-id="@Model.Id">
-                            Create
-                        </a>
-                    }
-                    else if (Model.Credentials.Submited == false)
-                    {
-                        <a asp-controller="Credentials" asp-action="Edit" asp-route-id="@Model.Id">
-                            Edit
-                        </a>
-                    }
-                </div>
+                }
+                else if (Model.Credentials.Submited == false)
+                {
+                    <a asp-controller="Credentials" asp-action="Edit" asp-route-id="@Model.Id">
+                        Edit
+                    </a>
+                }
+            </div>
+        </div>
+
+        <div id="collapse1" class="panel-collapse collapse">
+            <div class="panel-body">
+                @Html.EditorFor(model => model.Credentials)
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading row" style="background:#8aaac4;">
+            <h3 class="panel-title col-xs-9 col-sm-10">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                    Pet
+                </a>
+            </h3>
+            <div class="panel-link col-xs-3 col-sm-2">
+                @if (Model.Pet == null)
+                {
+                    <a asp-controller="Pets" asp-action="Create" asp-route-id="@Model.Id">
+                        Create
+                    </a>
+                }
+                else if (Model.Pet.Submited == false)
+                {
+                    <a asp-controller="Pets" asp-action="Edit" asp-route-id="@Model.Id">
+                        Edit
+                    </a>
+                }
+            </div>
+        </div>
+        <div id="collapse2" class="panel-collapse collapse">
+            <div class="panel-body">
+                @Html.EditorFor(model => model.Pet)
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading row" style="background:#ebebb0;">
+            <h3 class="panel-title col-xs-9 col-sm-10">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                    Latest Book Information
+                </a>
+            </h3>
+            <div class="panel-link col-xs-3 col-sm-2">
+                @if (lastBook.Information == null)
+                {
+                    <a asp-controller="Information" asp-action="Create" asp-route-bookId="@lastBook.Id" asp-route-personId="@Model.Id">
+                        Create
+                    </a>
+                }
+                else if (lastBook.Information.Submited == false)
+                {
+                    <a asp-controller="Information" asp-action="Edit" asp-route-id="@lastBook.Id" asp-route-personId="@Model.Id">
+                        Edit
+                    </a>
+                }
             </div>
 
-            <div id="collapse1" class="panel-collapse collapse">
-                <div class="panel-body">
-                    @Html.EditorFor(model => model.Credentials)
-                </div>
-            </div>
-        </div> 
-        <div class="panel panel-default">
-            <div class="panel-heading row" style="background:#8aaac4;">
-                <h3 class="panel-title col-xs-9 col-sm-10">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-                        Pet
-                    </a>
-                </h3>
-                <div class="panel-link col-xs-3 col-sm-2">
-                    @if (Model.Pet == null)
-                    {
-                        <a asp-controller="Pets" asp-action="Create" asp-route-id="@Model.Id">
-                            Create
-                        </a>
-                    }
-                    else if (Model.Pet.Submited == false)
-                    {
-                        <a asp-controller="Pets" asp-action="Edit" asp-route-id="@Model.Id">
-                            Edit
-                        </a>
-                    }
-                </div>
-            </div>
-            <div id="collapse2" class="panel-collapse collapse">
-                <div class="panel-body">
-                    @Html.EditorFor(model => model.Pet)
-                </div>
-            </div>
-        </div> 
-        <div class="panel panel-default">
-            <div class="panel-heading row" style="background:#ebebb0;">
-                <h3 class="panel-title col-xs-9 col-sm-10">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                        Latest Book Information
-                    </a>
-                </h3>
-                <div class="panel-link col-xs-3 col-sm-2">
-                    @if (lastBook.Information == null)
-                    {
-                        <a asp-controller="Information" asp-action="Create" asp-route-bookId="@lastBook.Id" asp-route-personId="@Model.Id">
-                            Create
-                        </a>
-                    }
-                    else if (lastBook.Information.Submited == false)
-                    {
-                        <a asp-controller="Information" asp-action="Edit" asp-route-id="@lastBook.Id" asp-route-personId="@Model.Id">
-                            Edit
-                        </a>
-                    }
-                </div>
+        </div>
 
+        <div id="collapse3" class="panel-collapse collapse">
+            <div class="panel-body">
+                @Html.EditorFor(model => lastBook.Information)
             </div>
-
-            <div id="collapse3" class="panel-collapse collapse">
-                <div class="panel-body">
-                    @Html.EditorFor(model => lastBook.Information)
-                </div>
-            </div>
-        </div> 
-        <div class="panel panel-default">
-            <div class="panel-heading" style="background:#c2858a;">
-                <h3 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse8">
-                        History
-                    </a>
-                </h3>
-            </div>
-            <div id="collapse8" class="panel-collapse collapse in">
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="table text-center">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">
-                                        @Html.DisplayNameFor(model => model.Books[0].Chapters[0].CreationDate)
-                                    </th>
-                                    <th class="text-center">
-                                        @Html.DisplayNameFor(model => model.Books[0].Chapters[0].Id)
-                                    </th>
-                                    <th class="text-center">
-                                        @Html.DisplayNameFor(model => model.Books[0].Chapters[0].Description)
-                                    </th>
-                                    <th class="text-center"></th>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background:#c2858a;">
+            <h3 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse8">
+                    History
+                </a>
+            </h3>
+        </div>
+        <div id="collapse8" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table text-center">
+                        <thead>
+                            <tr>
+                                <th class="text-center">
+                                    @Html.DisplayNameFor(model => model.Books[0].Chapters[0].CreationDate)
+                                </th>
+                                <th class="text-center">
+                                    @Html.DisplayNameFor(model => model.Books[0].Chapters[0].Id)
+                                </th>
+                                <th class="text-center">
+                                    @Html.DisplayNameFor(model => model.Books[0].Chapters[0].Description)
+                                </th>
+                                <th class="text-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Books)
+                            {
+                                <tr style="background:#d3ccd9">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Information.CreationDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Information.Titile)
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Books" asp-action="Details" asp-route-id="@item.Id">
+                                            Details
+                                        </a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.Books)
-                                {
-                                    <tr style="background:#d3ccd9">
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Information.CreationDate)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Id)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Information.Titile)
-                                        </td>
-                                        <td>
-                                            <a asp-controller="Books" asp-action="Details" asp-route-id="@item.Id">
-                                                Details
-                                            </a>
-                                        </td>                         
-                                    </tr>
                                     @foreach (var chapter in item.Chapters)
                                     {
                                         <tr>
@@ -175,24 +173,23 @@
                                                     </a>
                                                 }
                                             </td>
-                                            
+
                                         </tr>
                                     }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                    <p class="text-danger">
-                        @ViewData["BookSubmitError"]
-                    </p>
-                    <div class="btn-group btn-group-justified" style="margin-top:25px;">
-                        <a asp-controller="People" asp-action="BookCreate" asp-route-id="@Model.Id" class="btn btn-default">
-                            Start New Book
-                        </a>
-                        <a asp-controller="Chapters" asp-action="Create" asp-route-bookId="@lastBook.Id" asp-route-personId="@Model.Id" class="btn btn-default">
-                            Add Chapter
-                        </a>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-danger">
+                    @ViewData["BookSubmitError"]
+                </p>
+                <div class="btn-group btn-group-justified" style="margin-top:25px;">
+                    <a asp-controller="People" asp-action="BookCreate" asp-route-id="@Model.Id" class="btn btn-default">
+                        Start New Book
+                    </a>
+                    <a asp-controller="Chapters" asp-action="Create" asp-route-bookId="@lastBook.Id" asp-route-personId="@Model.Id" class="btn btn-default">
+                        Add Chapter
+                    </a>
                 </div>
             </div>
         </div>
