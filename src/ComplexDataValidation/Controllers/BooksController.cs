@@ -42,6 +42,7 @@ namespace ComplexDataValidation.Controllers
             {
                 return NotFound();
             }
+            await _entManager.RetrieveBook(book);
 
             return View(book);
         }

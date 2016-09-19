@@ -4,21 +4,34 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h2>Book</h2>
 
 <div>
-    <h4>Book</h4>
+    <h4>Details</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Submited)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Submited)
-        </dd>
-    </dl>
+    <dl class="dl-horizontal"></dl>
 </div>
+
+<div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background:#ebebb0;">
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                        Latest Book Information
+                    </a>
+                </h3>
+            </div>
+
+            <div id="collapse3" class="panel-collapse collapse">
+                <div class="panel-body">
+                    @Html.EditorFor(model => model.Information)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="People" asp-action="Details" asp-route-id="@Model.PersonId">Back to Person</a>
 </div>
