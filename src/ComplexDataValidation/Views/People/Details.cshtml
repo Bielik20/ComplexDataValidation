@@ -45,25 +45,10 @@
             </div>
             <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="row bottom-margin">
-                                <label asp-for="Credentials.Name" class="col-xs-6 display-label"></label>
-                                <div class="col-xs-6">
-                                    @Html.DisplayFor(model => model.Credentials.Name)
-                                </div>
-                            </div>
-                            <div class="row bottom-margin">
-                                <label asp-for="Credentials.Age" class="col-xs-6 display-label"></label>
-                                <div class="col-xs-6">
-                                    @Html.DisplayFor(model => model.Credentials.Age)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @Html.EditorFor(model => model.Credentials)
                 </div>
             </div>
-        </div>
+        </div> 
         <div class="panel panel-default">
             <div class="panel-heading" style="background:#8aaac4;">
                 <h3 class="panel-title">
@@ -86,25 +71,10 @@
             </div>
             <div id="collapse2" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="row bottom-margin">
-                                <label asp-for="Pet.Name" class="col-xs-6 display-label"></label>
-                                <div class="col-xs-6">
-                                    @Html.DisplayFor(model => model.Pet.Name)
-                                </div>
-                            </div>
-                            <div class="row bottom-margin">
-                                <label asp-for="Pet.Kind" class="col-xs-6 display-label"></label>
-                                <div class="col-xs-6">
-                                    @Html.DisplayFor(model => model.Pet.Kind)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @Html.EditorFor(model => model.Pet)
                 </div>
             </div>
-        </div>
+        </div> 
         <div class="panel panel-default">
             <div class="panel-heading" style="background:#ebebb0;">
                 <h3 class="panel-title">
@@ -131,25 +101,10 @@
             </div>
             <div id="collapse3" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="row bottom-margin">
-                                <label asp-for="Books[0].Information.Titile" class="col-xs-6 display-label"></label>
-                                <div class="col-xs-6">
-                                    @Html.DisplayFor(model => lastBook.Information.Titile)
-                                </div>
-                            </div>
-                            <div class="row bottom-margin">
-                                <label asp-for="Books[0].Information.CreationDate" class="col-xs-6 display-label"></label>
-                                <div class="col-xs-6">
-                                    @Html.DisplayFor(model => lastBook.Information.CreationDate)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @Html.EditorFor(model => lastBook.Information)
                 </div>
             </div>
-        </div>
+        </div> 
         <div class="panel panel-default">
             <div class="panel-heading" style="background:#c2858a;">
                 <h3 class="panel-title">

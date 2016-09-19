@@ -1,0 +1,18 @@
+﻿@model ComplexDataValidation.Models.Pet
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="row bottom-margin">
+            <label asp-for="Name" class="col-xs-6 display-label"></label>
+            <div class="col-xs-6">
+                @Html.DisplayFor(model => model.Name)
+            </div>
+        </div>
+        <div class="row bottom-margin">
+            <label asp-for="Kind" class="col-xs-6 display-label"></label>
+            <div class="col-xs-6">
+                @Html.DisplayFor(model => model.Kind)
+            </div>
+        </div>
+    </div>
+</div>
