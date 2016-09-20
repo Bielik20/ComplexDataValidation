@@ -15,11 +15,13 @@ namespace ComplexDataValidation.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly EntitiesManager _entManager;
+        private readonly DocumentControll _docControll;
 
-        public PeopleController(ApplicationDbContext context, EntitiesManager entManager)
+        public PeopleController(ApplicationDbContext context, EntitiesManager entManager, DocumentControll docControll)
         {
             _context = context;
             _entManager = entManager;
+            _docControll = docControll;
         }
 
         // GET: People
@@ -29,7 +31,7 @@ namespace ComplexDataValidation.Controllers
         }
 
         // GET: People/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(string id, string errorMessage)
         {
             if (id == null)
             {
@@ -42,6 +44,7 @@ namespace ComplexDataValidation.Controllers
                 return NotFound();
             }
 
+            ViewData["ErrorMessage"] = errorMessage;
             await _entManager.RetrievePerson(person);
             return View(person);
         }
@@ -69,40 +72,53 @@ namespace ComplexDataValidation.Controllers
             return View(person);
         }
 
-        public async Task<IActionResult> BookCreate(string id)
+        public async Task<IActionResult> CreateBook(string bookId ,string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var person = await _context.People.SingleOrDefaultAsync(m => m.Id == id);
-            if (person == null)
+            if (id == null || bookId == null)
             {
                 return NotFound();
             }
 
-            if (await IsBookCompleted(id) == false)
+            var book = await _context.Books.SingleOrDefaultAsync(b => b.Id == bookId);
+            if (book == null)
             {
-                ViewData["BookSubmitError"] = "You must fill all book information first.";
-                await _entManager.RetrievePerson(person);
-                return View("Details", person);
+                return NotFound();
+            }
+
+            await _entManager.RetrieveBook(book);
+            if (_docControll.BookFilled(book) == false)
+            {
+                var errorMessage = "You must fill all book information first.";
+                return RedirectToAction("Details", new { id = id, errorMessage = errorMessage });
             }
 
             return RedirectToAction("FastCreate", "Books", new { id = id });
         }
 
-        private async Task<bool> IsBookCompleted(string personId)
+        public async Task<IActionResult> CreateChapter(string bookId, string id)
         {
-            foreach (var book in await _context.Books.Where(x => x.PersonId == personId && x.Submited == false).ToListAsync())
+            if (id == null || bookId == null)
             {
-                await _entManager.RetrieveBook(book);
-                if (book.Information == null)
-                {
-                    return false;
-                }
+                return NotFound();
             }
-            return true;
+
+            var book = await _context.Books.SingleOrDefaultAsync(b => b.Id == bookId);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            await _entManager.RetrieveBook(book);
+            if (_docControll.BookFilled(book) == false)
+            {
+                var errorMessage = "You must fill all book information first.";
+                return RedirectToAction("Details", new { id = id, errorMessage = errorMessage });
+            }
+
+            return RedirectToAction("Create", "Chapters", new { bookId = bookId, personId = id });
         }
+
+
 
         // GET: People/Edit/5
         public async Task<IActionResult> Edit(string id)
