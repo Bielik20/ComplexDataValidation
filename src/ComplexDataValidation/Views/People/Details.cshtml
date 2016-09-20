@@ -23,25 +23,23 @@
 <div class="panel-group" id="accordion">
     <div class="panel panel-default">
         <div class="panel-heading row" style="background: #9ecca7">
-            <h3 class="panel-title col-xs-9 col-sm-10">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                <h3 class="panel-title col-xs-9 col-sm-10 noselect">
                     Credentials
-                </a>
-            </h3>
-            <div class="panel-link col-xs-3 col-sm-2">
+                </h3>
+            </a>
                 @if (Model.Credentials == null)
                 {
-                    <a asp-controller="Credentials" asp-action="Create" asp-route-id="@Model.Id">
+                    <a asp-controller="Credentials" asp-action="Create" asp-route-id="@Model.Id" class="panel-link col-xs-3 col-sm-2 noselect">
                         Create
                     </a>
                 }
                 else if (Model.Credentials.Submited == false)
                 {
-                    <a asp-controller="Credentials" asp-action="Edit" asp-route-id="@Model.Id">
+                    <a asp-controller="Credentials" asp-action="Edit" asp-route-id="@Model.Id" class="panel-link col-xs-3 col-sm-2 noselect">
                         Edit
                     </a>
                 }
-            </div>
         </div>
 
         <div id="collapse1" class="panel-collapse collapse">
@@ -52,25 +50,23 @@
     </div>
     <div class="panel panel-default">
         <div class="panel-heading row" style="background:#8aaac4;">
-            <h3 class="panel-title col-xs-9 col-sm-10">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                <h3 class="panel-title col-xs-9 col-sm-10 noselect">
                     Pet
-                </a>
-            </h3>
-            <div class="panel-link col-xs-3 col-sm-2">
+                </h3>
+            </a>
                 @if (Model.Pet == null)
                 {
-                    <a asp-controller="Pets" asp-action="Create" asp-route-id="@Model.Id">
+                    <a asp-controller="Pets" asp-action="Create" asp-route-id="@Model.Id" class="panel-link col-xs-3 col-sm-2 noselect">
                         Create
                     </a>
                 }
                 else if (Model.Pet.Submited == false)
                 {
-                    <a asp-controller="Pets" asp-action="Edit" asp-route-id="@Model.Id">
+                    <a asp-controller="Pets" asp-action="Edit" asp-route-id="@Model.Id" class="panel-link col-xs-3 col-sm-2 noselect">
                         Edit
                     </a>
                 }
-            </div>
         </div>
         <div id="collapse2" class="panel-collapse collapse">
             <div class="panel-body">
@@ -80,29 +76,30 @@
     </div>
     <div class="panel panel-default">
         <div class="panel-heading row" style="background:#ebebb0;">
-            <h3 class="panel-title col-xs-9 col-sm-10">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                <h3 class="panel-title col-xs-9 col-sm-10 noselect">
                     Latest Book Information
+                </h3>
+            </a>
+
+            @if (lastBook.Chapters.Capacity > 0)
+            {
+                <abbr class="panel-link disabled col-xs-3 col-sm-2 noselect" title="You can't have any chapters added to edit this category">
+                    Edit
+                </abbr>
+            }
+            else if (lastBook.Information == null)
+            {
+                <a asp-controller="Information" asp-action="Create" asp-route-bookId="@lastBook.Id" asp-route-personId="@Model.Id" class="panel-link col-xs-3 col-sm-2 noselect">
+                    Create
                 </a>
-            </h3>
-            <div class="panel-link col-xs-3 col-sm-2">
-                @if (lastBook.Chapters.Capacity > 0)
-                {
-                    <div style="color: darkgray; display: block">Edit</div>
-                }
-                else if (lastBook.Information == null)
-                {
-                    <a asp-controller="Information" asp-action="Create" asp-route-bookId="@lastBook.Id" asp-route-personId="@Model.Id">
-                        Create
-                    </a>
-                }
-                else if (lastBook.Information.Submited == false)
-                {
-                    <a asp-controller="Information" asp-action="Edit" asp-route-id="@lastBook.Id" asp-route-personId="@Model.Id">
-                        Edit
-                    </a>
-                }
-            </div>
+            }
+            else if (lastBook.Information.Submited == false)
+            {
+                <a asp-controller="Information" asp-action="Edit" asp-route-id="@lastBook.Id" asp-route-personId="@Model.Id" class="panel-link col-xs-3 col-sm-2 noselect">
+                    Edit
+                </a>
+            }
         </div>
 
         <div id="collapse3" class="panel-collapse collapse">
@@ -111,13 +108,14 @@
             </div>
         </div>
     </div>
+
     <div class="panel panel-default">
-        <div class="panel-heading" style="background:#c2858a;">
-            <h3 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse8">
+        <div class="panel-heading row" style="background:#c2858a;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse8">
+                <h3 class="panel-title col-xs-12 noselect">
                     History
-                </a>
-            </h3>
+                </h3>
+            </a>
         </div>
         <div id="collapse8" class="panel-collapse collapse in">
             <div class="panel-body">
