@@ -31,7 +31,7 @@ namespace ComplexDataValidation.Controllers
         }
 
         // GET: People/Details/5
-        public async Task<IActionResult> Details(string id, string errorMessage)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -44,7 +44,7 @@ namespace ComplexDataValidation.Controllers
                 return NotFound();
             }
 
-            ViewData["ErrorMessage"] = errorMessage;
+            ViewData["ErrorMessage"] = TempData["ErrorMessage"];
             await _entManager.RetrievePerson(person);
             return View(person);
         }
@@ -88,8 +88,8 @@ namespace ComplexDataValidation.Controllers
             await _entManager.RetrieveBook(book);
             if (_docControll.BookFilled(book) == false)
             {
-                var errorMessage = "You must fill all book information first.";
-                return RedirectToAction("Details", new { id = id, errorMessage = errorMessage });
+                TempData["ErrorMessage"] = "You must fill all book information first.";
+                return RedirectToAction("Details", new { id = id });
             }
 
             return RedirectToAction("FastCreate", "Books", new { id = id });
@@ -111,8 +111,8 @@ namespace ComplexDataValidation.Controllers
             await _entManager.RetrieveBook(book);
             if (_docControll.BookFilled(book) == false)
             {
-                var errorMessage = "You must fill all book information first.";
-                return RedirectToAction("Details", new { id = id, errorMessage = errorMessage });
+                TempData["ErrorMessage"] = "You must fill all book information first.";
+                return RedirectToAction("Details", new { id = id });
             }
 
             return RedirectToAction("Create", "Chapters", new { bookId = bookId, personId = id });
