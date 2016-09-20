@@ -41,6 +41,8 @@ namespace ComplexDataValidation
 
             var connection = @"Server=(localdb)\mssqllocaldb;Database=ComplexDataValidation;Trusted_Connection=True;";
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
+            services.AddMemoryCache();
+            services.AddSession();
 
             services.AddTransient<EntitiesManager, EntitiesManager>();
             services.AddTransient<DocumentControll, DocumentControll>();
@@ -67,6 +69,8 @@ namespace ComplexDataValidation
             }
 
             app.UseApplicationInsightsExceptionTelemetry();
+
+            app.UseSession();
 
             app.UseStaticFiles();
 
