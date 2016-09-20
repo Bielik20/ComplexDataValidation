@@ -43,6 +43,7 @@ namespace ComplexDataValidation
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
 
             services.AddTransient<EntitiesManager, EntitiesManager>();
+            services.AddTransient<DocumentControll, DocumentControll>();
 
             services.AddMvc();
         }
