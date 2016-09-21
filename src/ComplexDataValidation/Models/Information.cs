@@ -15,6 +15,7 @@ namespace ComplexDataValidation.Models
         public bool Submited { get; set; }
 
         public string Titile { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime CreationDate { get; set; }
 
         public Book Book{ get; set; }
