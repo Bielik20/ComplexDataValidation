@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,6 +16,7 @@ namespace ComplexDataValidation.Models
         public bool Submited { get; set; }
 
         public string Titile { get; set; }
+        [Remote("Test", "People", AdditionalFields = "Id")]
         public DateTime CreationDate { get; set; }
 
         public Book Book{ get; set; }

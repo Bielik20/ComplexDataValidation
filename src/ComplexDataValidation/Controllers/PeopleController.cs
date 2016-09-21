@@ -30,6 +30,11 @@ namespace ComplexDataValidation.Controllers
             return View(await _context.People.ToListAsync());
         }
 
+        public ActionResult RemoteTest(DateTime creationDate, string id)
+        {
+            return Json(false);
+        }
+
         // GET: People/Details/5
         public async Task<IActionResult> Details(string id)
         {
