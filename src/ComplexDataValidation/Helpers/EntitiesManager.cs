@@ -39,10 +39,7 @@ namespace ComplexDataValidation.Helpers
                 await RetrieveBook(book);
             }
 
-            var nonulls = person.Books.Where(x => x.Information != null)
-                .OrderBy(b => b.Information.CreationDate);
-            var nulls = person.Books.Where(x => x.Information == null);
-            person.Books = nonulls.Concat(nulls).ToList();
+            person.Books.Sort();
         }
 
         public async Task RetrieveBook(Book book)
@@ -54,6 +51,11 @@ namespace ComplexDataValidation.Helpers
 
             book.Information = await _context.Information.Where(x => x.Id == book.Id).FirstOrDefaultAsync();
 
+            await RetrieveChapters(book.Chapters, book);
+        }
+
+        public async Task RetrieveChapters(List<Chapter> chapters, Book book)
+        {
             var chaptersQuery = from c in _context.Chapters
                                 where c.BookId == book.Id
                                 orderby c.CreationDate
