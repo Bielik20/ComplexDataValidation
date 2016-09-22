@@ -86,13 +86,13 @@ namespace ComplexDataValidation.Controllers
             }
 
             await _entManager.RetrieveBook(book);
-            if (_docControll.BookFilled(book) == false)
+            if (_docControll.BookIsFilled(book))
             {
-                TempData["ErrorMessage"] = "You must fill all book information first.";
-                return RedirectToAction("Details", new { id = id });
+                return RedirectToAction("FastCreate", "Books", new { id = id });
             }
 
-            return RedirectToAction("FastCreate", "Books", new { id = id });
+            TempData["ErrorMessage"] = "You must fill all book information first.";
+            return RedirectToAction("Details", new { id = id });
         }
 
         public async Task<IActionResult> CreateChapter(string bookId, string id)
@@ -109,13 +109,13 @@ namespace ComplexDataValidation.Controllers
             }
 
             await _entManager.RetrieveBook(book);
-            if (_docControll.BookFilled(book) == false)
+            if (_docControll.BookIsFilled(book))
             {
-                TempData["ErrorMessage"] = "You must fill all book information first.";
-                return RedirectToAction("Details", new { id = id });
+                return RedirectToAction("Create", "Chapters", new { bookId = bookId, personId = id });
             }
 
-            return RedirectToAction("Create", "Chapters", new { bookId = bookId, personId = id });
+            TempData["ErrorMessage"] = "You must fill all book information first.";
+            return RedirectToAction("Details", new { id = id });
         }
 
 
