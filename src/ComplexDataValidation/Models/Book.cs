@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ComplexDataValidation.Models
 {
-    public class Book
+    public class Book : IComparable<Book>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -21,5 +21,21 @@ namespace ComplexDataValidation.Models
         public string PersonId { get; set; }
         [ForeignKey("PersonId")]
         public Person Person { get; set; }
+
+        /// <summary>
+        /// Sorts by Date ascending, nulls are at the end of list.
+        /// </summary>
+        public int CompareTo(Book other)
+        {
+            if (other.Information == null)
+            {
+                return -1;
+            }
+            if (Information == null || Information.CreationDate >= other.Information.CreationDate)
+            {
+                return 1;
+            }
+            return -1;
+        }
     }
 }
